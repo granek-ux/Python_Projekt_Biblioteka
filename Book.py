@@ -1,3 +1,6 @@
+from Enums import StatusEnum
+
+
 class Book:
     # działa jak static w java to nextID
     nextId = 1
@@ -9,3 +12,4 @@ class Book:
         self.author = author
         self.isbn = isbn
         self.pages = pages
+        self.status = StatusEnum.Wolny
