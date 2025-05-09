@@ -5,3 +5,12 @@
 class ReaderNotFound(Exception):
     # kiedy nie znajdzie się czytlenika o podanym id
     pass
+
+
+class BookNotRegistered(Exception):
+    #kiedy nie ma ksiązki w bibliotece
+    pass
+
+class BookAlreadyTaken(Exception):
+    #kiedy nie ma wolej książki
+    pass
