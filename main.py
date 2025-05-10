@@ -1,11 +1,17 @@
 import pickle
-
 from Book import Book
 from Library import Library
+from colorama import init, Fore, Style
+import shutil
 
 
 def interface()-> None:
-    print('\033[31mWitaj w bibliotece\033[0m'.center(50,' '))
+    init()
+    width = shutil.get_terminal_size().columns
+    text = 'Witaj w bibliotece'
+    ready_text = Fore.MAGENTA  + text +  Style.RESET_ALL
+
+    print(ready_text.center(width))
     # ewentualnie biblioteka dla łatwiejszej składni
     #bo ta domyślna to mało wygodna
     print('Możesz w miej zrobić:')
@@ -28,15 +34,18 @@ def interface()-> None:
 
 interface()
 
-cos = Library()
+# cos = Library()
 
 #Propozycja
 #zapis do pliku po każdym działaniu programu aby nie tracić danych
-#zapis do pliku
-with open("person.pkl", "wb") as file:
-    pickle.dump(cos, file)
 
-# odczyt z pliku
-with open("test.plk", "rb") as file:
-    cos = pickle.load(file)
+#zapis do pliku
+
+# with open("person.pkl", "wb") as file:
+#     pickle.dump(cos, file)
+#
+# # odczyt z pliku
+
+# with open("test.plk", "rb") as file:
+#     cos = pickle.load(file)
 

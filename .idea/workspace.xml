@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="UserInterface COLORS!!!!!!!!!!!!!!">
+    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="Zapis obiektu do pliku">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -110,7 +110,7 @@
       <workItem from="1746808949309" duration="295000" />
       <workItem from="1746809800018" duration="131000" />
       <workItem from="1746818876835" duration="2495000" />
-      <workItem from="1746867632802" duration="372000" />
+      <workItem from="1746867632802" duration="1073000" />
     </task>
     <task id="LOCAL-00001" summary="First commit &#10;added Book Reader and Library">
       <option name="closed" value="true" />
@@ -176,7 +176,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746821346486</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Zapis obiektu do pliku">
+      <option name="closed" value="true" />
+      <created>1746868133246</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1746868133246</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,9 +197,10 @@
     <MESSAGE value="added status to Book" />
     <MESSAGE value="First version of reserve_book" />
     <MESSAGE value="UserInterface COLORS!!!!!!!!!!!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="UserInterface COLORS!!!!!!!!!!!!!!" />
+    <MESSAGE value="Zapis obiektu do pliku" />
+    <option name="LAST_COMMIT_MESSAGE" value="Zapis obiektu do pliku" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1746821214307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1746868523064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
