@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="First commit &#10;added Book Reader and Library">
-      <change afterPath="$PROJECT_DIR$/Enums.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Python_Projekt_Biblioteka.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python_Projekt_Biblioteka.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="UserInterface COLORS!!!!!!!!!!!!!!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Book.py" beforeDir="false" afterPath="$PROJECT_DIR$/Book.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library.py" beforeDir="false" afterPath="$PROJECT_DIR$/Library.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +109,8 @@
       <workItem from="1746805258312" duration="2066000" />
       <workItem from="1746808949309" duration="295000" />
       <workItem from="1746809800018" duration="131000" />
-      <workItem from="1746818876835" duration="2311000" />
+      <workItem from="1746818876835" duration="2495000" />
+      <workItem from="1746867632802" duration="372000" />
     </task>
     <task id="LOCAL-00001" summary="First commit &#10;added Book Reader and Library">
       <option name="closed" value="true" />
@@ -141,7 +136,47 @@
       <option name="project" value="LOCAL" />
       <updated>1746789230271</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Enums">
+      <option name="closed" value="true" />
+      <created>1746821241614</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746821241614</updated>
+    </task>
+    <task id="LOCAL-00005" summary="BookNotRegistered and BookAlreadyTaken">
+      <option name="closed" value="true" />
+      <created>1746821257831</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746821257831</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added status to Book">
+      <option name="closed" value="true" />
+      <created>1746821279061</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746821279061</updated>
+    </task>
+    <task id="LOCAL-00007" summary="First version of reserve_book">
+      <option name="closed" value="true" />
+      <created>1746821307241</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746821307241</updated>
+    </task>
+    <task id="LOCAL-00008" summary="UserInterface COLORS!!!!!!!!!!!!!!">
+      <option name="closed" value="true" />
+      <created>1746821346486</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1746821346486</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,9 +184,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit &#10;added Book Reader and Library" />
-    <option name="LAST_COMMIT_MESSAGE" value="First commit &#10;added Book Reader and Library" />
+    <MESSAGE value="Enums" />
+    <MESSAGE value="BookNotRegistered and BookAlreadyTaken" />
+    <MESSAGE value="added status to Book" />
+    <MESSAGE value="First version of reserve_book" />
+    <MESSAGE value="UserInterface COLORS!!!!!!!!!!!!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="UserInterface COLORS!!!!!!!!!!!!!!" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1746821163875" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1746821214307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
