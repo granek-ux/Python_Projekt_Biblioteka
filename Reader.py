@@ -7,6 +7,9 @@ class Reader:
         self.address = address
         self.telephone_number = telephone_number
         self.list_of_registers = []
+        self.list_of_Borrowed_Books = []
+        self.charge = 0
+
     #     histoira
 
     @property

@@ -1,3 +1,4 @@
+import os
 import pickle
 
 from Book import Book
@@ -20,7 +21,7 @@ def interface(library:Library) -> Library:
     # ewentualnie biblioteka dla łatwiejszej składni
     # bo ta domyślna to mało wygodna
     while True:
-
+        print("\n")
         # podzielić to na 3 sekcje
         # 1 to czcytlenice
         # 2 ksiżski
@@ -88,12 +89,12 @@ def interface(library:Library) -> Library:
 
 # cos = Library()
 # odczyt z pliku
-# with open("test.plk", "rb") as file:
-#     lib = pickle.load(file)
+with open("test.plk", "rb") as file:
+    lib = pickle.load(file)
 
 # print("\n".join(str(p) for p in lib.list_of_readers))
 
-lib = Library()
+# lib = Library()
 
 # print("\n".join(str(p) for p in lib.list_of_book))
 #

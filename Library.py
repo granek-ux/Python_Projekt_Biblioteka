@@ -1,6 +1,6 @@
 from enum import Enum
 from Book import Book
-from Enums import StatusEnum
+from Enums import StatusEnum, RegisterEnum
 from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken
 from Reader import Reader
 from Resiter import Register
@@ -151,7 +151,7 @@ class Library:
 
         book.status = StatusEnum.Wyporzyczona
         today = date.today()
-        regi = Register(reader.id, book.id,today, "Wyporzyczenie")
+        regi = Register(reader.id, book.id,today, RegisterEnum.Wyporzyczenie)
 
         reader.list_of_registers.add(regi)
 
