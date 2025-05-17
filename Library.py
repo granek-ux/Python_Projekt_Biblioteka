@@ -3,6 +3,8 @@ from Book import Book
 from Enums import StatusEnum
 from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken
 from Reader import Reader
+from Resiter import Register
+from datetime import date
 
 
 class Library:
@@ -14,8 +16,9 @@ class Library:
         self.map_of_rader_book = {}
         #     mapa która jako klucz będzie miała czytelnika np: jego id
         #     a jako wartość liste książek która wypozyczył
+        # self.book_quantity = {}
 
-        self.map_reader_history = {}
+        self.list_of_registers = []
 
     #     klucz czytelnik
     #     valve jego historia data operacji, tytuł książki, typ operacji(zwrot/wypożyczenie/przedłużenie/rezerwacja)
@@ -24,16 +27,114 @@ class Library:
         self.list_of_readers.append(reader)
         self.map_of_rader_book[reader] = []
 
+    def _find_Reader(self,name:str, surname:str) -> Reader:
+        matches = [r for r in self.list_of_readers if r.name == name and r.surname == surname]
+        if len(matches) == 0:
+            raise ReaderNotFound
+        elif len(matches) == 1:
+            reader = matches[0]
+        else:
+            print('Wybierz czyelnika: ')
+            id = 1
+            for r in matches:
+                print(f"numer: {id} to: {r}")
+                id += 1
+            id_wanted = int(input("podaj żądane Id:"))
+            reader = matches[id_wanted - 1]
+
+        return reader
+
+    def remove_reader(self, name:str, surname:str) -> None:
+        reader = self._find_Reader(name, surname)
+        self.list_of_readers.remove(reader)
+
+    def edit_reader(self, name:str, surname:str):
+
+        reader = self._find_Reader(name, surname)
+
+        print("Co chcesz edytować:")
+        print("1. imie: ")
+        print("2. nazwisko: ")
+        print("3. adres: ")
+        print("4. numer telefonu: ")
+
+        code = (int)(input())
+        match (code):
+            case 1:
+                print(f"Stare imie: {reader.name}")
+                name = input("Podaj nowe imie: ")
+                reader.name = name
+            case 2:
+                print(f"Stare nazwsiko: {reader.surname}")
+                sname = input("Podaj nowe nazwsiko: ")
+                reader.surname = sname
+            case 3:
+                print(f"Stary adres: {reader.address}")
+                adres = input("Podaj nowe adres: ")
+                reader.address = adres
+            case 4:
+                print(f"Stary numer telefonu: {reader.telephone_number}")
+                tln = int(input("Podaj nowy numer telefonu: "))
+                reader.telephone_number = tln
+
+
     def add_book(self, book: Book) -> None:
         self.list_of_book.append(book)
+        # if (book.title in self.book_quantity.keys()):
+        #     self.book_quantity[book.title] =  self.book_quantity[book.title] + 1
+        # else:
+        #     self.book_quantity[book.title] = 1
 
-    def edit_book(self, book: Book) -> None:
-        # todo
-        #     tu nie wiem co
-        pass
 
-    def remove_book(self, book: Book) -> None:
+
+    def _findBook(self, title:str, author:str, status:StatusEnum = StatusEnum.Wolny)->Book:
+        matches = [b for b in self.list_of_book if b.title == title and b.author == author and b.status == status]
+        if len(matches) == 0:
+            raise BookNotRegistered
+        elif len(matches) == 1:
+            book = matches[0]
+        else:
+            print('Wybierz książkę: ')
+            id = 1
+            for b in matches:
+                print(f"numer: {id} to: {b}")
+                id += 1
+            id_wanted = int(input("podaj żądane Id:"))
+            book = matches[id_wanted - 1]
+
+        return book
+
+    def edit_book(self, title:str, author:str) -> None:
+        book = self._findBook(title, author)
+        print('Co chcesz edytować?: ')
+        print("1. Tytuł")
+        print("2. Autor")
+        print("3. isbm")
+        print("4. ilość stron")
+        code = (int)(input())
+        match (code):
+            case 1:
+                print(f"Stary tytuł: {book.title}")
+                title = input("Podaj nowy tytuł: ")
+                book.title = title
+            case 2:
+                print(f"Stary Autor: {book.author}")
+                author = input("Podaj nowego Autora: ")
+                book.author = author
+            case 3:
+                print(f"Stary ISBM: {book.isbn}")
+                ismb = int(input("Podaj nowy ISBM: "))
+                book.isbn = ismb
+            case 4:
+                print(f"Stara ilość stron: {book.pages}")
+                pages = int(input("Podaj nową ilość stron: "))
+                book.pages = pages
+
+    def remove_book(self, title:str, author:str) -> None:
+        book = self._findBook(title, author)
+
         self.list_of_book.remove(book)
+        # self.book_quantity[book.title] =  self.book_quantity[book.title] - 1
 
     def _add_history(self, reader_id: int, log: str) -> None:
         if reader_id in self.list_of_readers:
@@ -44,18 +145,27 @@ class Library:
     def get_history(self, reader_id: int) -> str:
         return self.map_reader_history[reader_id]
 
-    def reserve_book(self, reader: Reader, book: Book) -> None:
-
-        if reader not in self.list_of_readers:
-            raise ReaderNotFound('Reader has not been registered yet')
-        if book not in self.list_of_book:
-            raise BookNotRegistered("Book not registered in library")
-        if book.status != StatusEnum.Wolny:
-            raise BookAlreadyTaken('Book is already taken')
+    def borrow_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+        reader = self._find_Reader(rname, rsurname)   
+        book = self._findBook(title = btitle, author = bauthor)
 
         book.status = StatusEnum.Wyporzyczona
-        # todo
-#         i tu na przykład usunąć z mapy jedną książkę
+        today = date.today()
+        regi = Register(reader.id, book.id,today, "Wyporzyczenie")
+
+        reader.list_of_registers.add(regi)
+
+
+    def return_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+        reader = self._find_Reader(rname, rsurname)
+        book = self._findBook(title=btitle, author=bauthor, status= StatusEnum.Wyporzyczona)
+
+        book.status = StatusEnum.Wolny
+        today = date.today()
+        regi = Register(reader.id, book.id,today, "Oddanie")
+
+        reader.list_of_registers.add(regi)
+
 
 
 # można dodać jakiś graf pokazujący jaki czytelnik ile ksiązke wyporzyczył ale to juz dodatkowe ale nie trudne do zrobienia
