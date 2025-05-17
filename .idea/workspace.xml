@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="Zapis obiektu do pliku">
+    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="Kolorowy i Wycentrowany Text">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -110,7 +110,10 @@
       <workItem from="1746808949309" duration="295000" />
       <workItem from="1746809800018" duration="131000" />
       <workItem from="1746818876835" duration="2495000" />
-      <workItem from="1746867632802" duration="1073000" />
+      <workItem from="1746867632802" duration="1196000" />
+      <workItem from="1746896304278" duration="8000" />
+      <workItem from="1747481429518" duration="117000" />
+      <workItem from="1747485617803" duration="500000" />
     </task>
     <task id="LOCAL-00001" summary="First commit &#10;added Book Reader and Library">
       <option name="closed" value="true" />
@@ -184,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746868133246</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Kolorowy i Wycentrowany Text">
+      <option name="closed" value="true" />
+      <created>1746868802413</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746868802413</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,9 +209,20 @@
     <MESSAGE value="First version of reserve_book" />
     <MESSAGE value="UserInterface COLORS!!!!!!!!!!!!!!" />
     <MESSAGE value="Zapis obiektu do pliku" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zapis obiektu do pliku" />
+    <MESSAGE value="Kolorowy i Wycentrowany Text" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kolorowy i Wycentrowany Text" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Library.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1746868523064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1747485762638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
