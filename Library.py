@@ -1,3 +1,4 @@
+import enum
 from enum import Enum
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
@@ -39,7 +40,7 @@ class Library:
             for r in matches:
                 print(f"numer: {id} to: {r}")
                 id += 1
-            id_wanted = int(input("podaj żądane Id:"))
+            id_wanted = int(input("podaj żądane Id: "))
             reader = matches[id_wanted - 1]
 
         return reader
@@ -99,7 +100,7 @@ class Library:
             for b in matches:
                 print(f"numer: {id} to: {b}")
                 id += 1
-            id_wanted = int(input("podaj żądane Id:"))
+            id_wanted = int(input("podaj żądane Id: "))
             book = matches[id_wanted - 1]
 
         return book
@@ -153,18 +154,72 @@ class Library:
         today = date.today()
         regi = Register(reader.id, book.id,today, RegisterEnum.Wyporzyczenie)
 
-        reader.list_of_registers.add(regi)
+        reader.list_of_registers.append(regi)
+        reader.list_of_Borrowed_Books.append(book)
 
+    def calculateCosts(self, date_of_borow: date) -> int:
+        dayToday = date.today()
+        diff = dayToday - date_of_borow
+        if (diff.days > 30):
+            return diff.days - 30 * Library.price_for_missig_day
 
-    def return_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+        return 0
+
+    def return_book(self, rname: str, rsurname: str) -> None:
         reader = self._find_Reader(rname, rsurname)
-        book = self._findBook(title=btitle, author=bauthor, status= StatusEnum.Wyporzyczona)
+
+        print('Wybierz książkę: ')
+        lookingid = 1
+        for book in reader.list_of_Borrowed_Books:
+            print(f"numer: {lookingid} to: {str(book)}")
+            lookingid += 1
+        id_wanted = int(input("podaj żądane Id: "))
+        book = reader.list_of_Borrowed_Books[id_wanted - 1]
 
         book.status = StatusEnum.Wolny
         today = date.today()
-        regi = Register(reader.id, book.id,today, "Oddanie")
+        regi = Register(reader.id, book.id, today, RegisterEnum.Oddanie)
 
-        reader.list_of_registers.add(regi)
+        reader.list_of_registers.append(regi)
+        reader.list_of_Borrowed_Books.remove(book)
+
+        # borrow_date =1
+        # latest_register_of_book = max(
+        #     (r for r in reader.list_of_registers if r.book_id == target_book_id and r.operation == "wypożyczenie"),
+        #     key=lambda r: r.date,
+        #     default=None  # jeśli nie ma takiego wpisu
+        # )
+        for register in reader.list_of_registers[::-1]:
+            if register.book_id == book.id and register.operation == RegisterEnum.Wyporzyczenie:
+                date_of_borow = register.date
+                cost = self.calculateCosts(date_of_borow)
+                cost = 5
+                reader.charge += cost
+                break
+
+        # latest_register_of_book = None
+        # for register in reader.list_of_registers:
+        #     if register.book_id == target_book_id and register.operation == "wypożyczenie":
+        #         if latest_register_of_book is None or register.date > latest_register_of_book.date:
+        #             latest_register_of_book = register
+
+
+
+
+
+
+
+    # def return_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+    #     reader = self._find_Reader(rname, rsurname)
+    #     book = self._findBook(title=btitle, author=bauthor, status= StatusEnum.Wyporzyczona)
+    #
+    #     book.status = StatusEnum.Wolny
+    #     today = date.today()
+    #     regi = Register(reader.id, book.id,today, "Oddanie")
+    #
+    #     reader.list_of_registers.add(regi)
+
+
 
 
 

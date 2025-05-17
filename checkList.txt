@@ -10,3 +10,5 @@ Możliwość przedłużenie wypożyczenia, gdy nikt nie zarezerwował książki.
 Wyświetlanie historii użytkownika (data operacji, tytuł książki, typ operacji (zwrot/wypożyczenie/przedłużenie/rezerwacja).
 Dodaj obsługę wyjątków (min. 10 wyjątków).
 Utwórz prosty interface dla czytelnika.
+
+https://docs.google.com/document/d/1xlT8cE4UAq3HVcPOYse6s7_Upl5dXoDfQ9UuagoVZhQ/edit?usp=sharing

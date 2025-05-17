@@ -42,7 +42,20 @@ def interface(library:Library) -> Library:
         code = (int)(input())
         match (code):
             case 1:
+                maxid = 0
+                for readertmp in lib.list_of_readers:
+                    if readertmp.id > maxid:
+                        maxid = readertmp.id
+
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+                address = input("Podaj address: ")
+                telephone_number = int(input("Podaj numer telefonu: "))
+                reader = Reader(id = maxid, name = name, surname = surname, address = address, telephone_number = telephone_number)
+                lib.add_reader(reader)
+
                 print('\033[31mDodaleś Czytelnika\033[0m')
+                print(lib.list_of_readers)
             case 2:
                 name = input("Podaj imie czytelnika:")
                 surname = input("Podaj nazwisko czytelnika:")
@@ -86,6 +99,18 @@ def interface(library:Library) -> Library:
             case 9:
                 print("Do Widzenia".center(50, ' '))
                 return library
+            case 10:
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+
+                library.borrow_book(name, surname, title, author)
+            case 11:
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+
+                library.return_book(name, surname)
 
 # cos = Library()
 # odczyt z pliku

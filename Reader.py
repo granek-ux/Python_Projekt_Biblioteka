@@ -18,4 +18,4 @@ class Reader:
 
 
     def __str__(self):
-        return f"Imie: {self.name}, Nazwisko: {self.surname}, Adres: {self.address}, Numer telefonu: {self.telephone_number}"
+        return f"Imie: {self.name}, Nazwisko: {self.surname}, Adres: {self.address}, Numer telefonu: {self.telephone_number}, Należności: {self.charge}"
