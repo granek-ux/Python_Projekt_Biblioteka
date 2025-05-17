@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="Kolorowy i Wycentrowany Text">
+    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="added files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library.py" beforeDir="false" afterPath="$PROJECT_DIR$/Library.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +62,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jbali\OneDrive\Pulpit\semestr 4\PPY\Python_Projekt_Biblioteka" />
       <recent name="C:\Users\s31418\PycharmProjects\Python_Projekt_Biblioteka" />
     </key>
   </component>
@@ -114,6 +116,7 @@
       <workItem from="1746896304278" duration="8000" />
       <workItem from="1747481429518" duration="117000" />
       <workItem from="1747485617803" duration="500000" />
+      <workItem from="1747497816934" duration="1277000" />
     </task>
     <task id="LOCAL-00001" summary="First commit &#10;added Book Reader and Library">
       <option name="closed" value="true" />
@@ -195,7 +198,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746868802413</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="small interace changes">
+      <option name="closed" value="true" />
+      <created>1747497901879</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1747497901879</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added files">
+      <option name="closed" value="true" />
+      <created>1747498400726</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1747498400726</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,19 +229,11 @@
     <MESSAGE value="UserInterface COLORS!!!!!!!!!!!!!!" />
     <MESSAGE value="Zapis obiektu do pliku" />
     <MESSAGE value="Kolorowy i Wycentrowany Text" />
-    <option name="LAST_COMMIT_MESSAGE" value="Kolorowy i Wycentrowany Text" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Library.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="small interace changes" />
+    <MESSAGE value="added files" />
+    <option name="LAST_COMMIT_MESSAGE" value="added files" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1747485762638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1747498615450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

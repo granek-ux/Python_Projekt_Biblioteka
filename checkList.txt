@@ -1,0 +1,12 @@
+Funkcje aplikacji:
+Dodawanie, usuwanie i edycja książek wraz z ich szczegółowymi informacjami. Każda książka powinna zawierać tytuł, autora, numer ISBN, wydawnictwo, liczba stron.
+Uwzględnij przypadek, że w bibliotece może być kilka książek o tych samych danych (tytuł, autor etc.).
+Dodawanie, usuwanie i edycja danych czytelników (np. imię, nazwisko, unikalny numer czytelnika, adres, numer telefonu). Numer czytelnika nie może podlegać edycji.
+Wypożyczanie i zwracanie książek przez czytelników.
+Automatyczne obliczanie opłat za przetrzymanie książek.
+Wyświetlanie listy książek dostępnych w bibliotece oraz tych wypożyczonych.
+Obsługa rezerwacji książek.
+Możliwość przedłużenie wypożyczenia, gdy nikt nie zarezerwował książki.
+Wyświetlanie historii użytkownika (data operacji, tytuł książki, typ operacji (zwrot/wypożyczenie/przedłużenie/rezerwacja).
+Dodaj obsługę wyjątków (min. 10 wyjątków).
+Utwórz prosty interface dla czytelnika.

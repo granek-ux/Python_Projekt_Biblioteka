@@ -6,16 +6,17 @@ from Reader import Reader
 
 
 class Library:
+    price_for_missig_day = 5  # cena za nie oddanie kisażki za każdy dzień
 
-    price_for_missig_day = 5 #cena za nie oddanie kisażki za każdy dzień
     def __init__(self):
         self.list_of_readers = []
-        self.list_of_book = [] #albo to zroibc jako mapa która posaida id ksiązki/nazwe coś unikalnego i jego liczbę bo mamy przechwywać klika takich samych książek
+        self.list_of_book = []  # albo to zroibc jako mapa która posaida id ksiązki/nazwe coś unikalnego i jego liczbę bo mamy przechwywać klika takich samych książek
         self.map_of_rader_book = {}
         #     mapa która jako klucz będzie miała czytelnika np: jego id
         #     a jako wartość liste książek która wypozyczył
 
         self.map_reader_history = {}
+
     #     klucz czytelnik
     #     valve jego historia data operacji, tytuł książki, typ operacji(zwrot/wypożyczenie/przedłużenie/rezerwacja)
 
@@ -27,8 +28,8 @@ class Library:
         self.list_of_book.append(book)
 
     def edit_book(self, book: Book) -> None:
-    # todo
-    #     tu nie wiem co
+        # todo
+        #     tu nie wiem co
         pass
 
     def remove_book(self, book: Book) -> None:
@@ -43,17 +44,17 @@ class Library:
     def get_history(self, reader_id: int) -> str:
         return self.map_reader_history[reader_id]
 
-    def reserve_book(self, reader:Reader, book:Book) -> None:
+    def reserve_book(self, reader: Reader, book: Book) -> None:
 
         if reader not in self.list_of_readers:
             raise ReaderNotFound('Reader has not been registered yet')
-        if book not in self.list_of_book :
+        if book not in self.list_of_book:
             raise BookNotRegistered("Book not registered in library")
         if book.status != StatusEnum.Wolny:
             raise BookAlreadyTaken('Book is already taken')
 
         book.status = StatusEnum.Wyporzyczona
-        #todo
+        # todo
 #         i tu na przykład usunąć z mapy jedną książkę
 
 

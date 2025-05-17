@@ -43,5 +43,5 @@ lib = interface(lib)
 # zapis do pliku po każdym działaniu programu aby nie tracić danych
 
 # zapis do pliku
-with open("person.pkl", "wb") as file:
+with open("test.pkl", "wb") as file:
     pickle.dump(lib, file)
