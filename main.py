@@ -6,6 +6,7 @@ from Book import Book
 from Library import Library
 from colorama import init, Fore, Style
 import shutil
+import pandas as pd
 from pprint import pprint
 from datetime import date, datetime
 
@@ -161,7 +162,12 @@ def interface(library:Library) -> Library:
                 library.edit_reader(name, surname)
 
             case 4:
-                print("\n".join(str(p) for p in lib.list_of_readers))
+                # print("\n".join(str(p) for p in lib.list_of_readers))
+                # df = pd.DataFrame(lib.list_of_readers)
+                df = pd.DataFrame([vars(reader) for reader in lib.list_of_readers])
+
+                # Display the DataFrame
+                print(print(df[["name","surname", "charge"]]))
             case 5:
                 maxid = 0
                 for booktmp in lib.list_of_book:
@@ -219,9 +225,9 @@ with open("test.plk", "rb") as file:
 # lib.list_of_book = []
 
 
-# lib = interface(lib)
-
-lib = new_interface(lib)
+lib = interface(lib)
+#
+# lib = new_interface(lib)
 
 
 
