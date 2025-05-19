@@ -1,5 +1,6 @@
 import os
 import pickle
+from unittest import case
 
 from Book import Book
 from Library import Library
@@ -9,6 +10,98 @@ from pprint import pprint
 from datetime import date, datetime
 
 from Reader import Reader
+
+def reader_interface(library:Library) ->Library:
+    while True:
+        print('Jesteś w sekcji czytelnika:')
+        print('możesz w niej zrobić')
+        print('1. Dodać nowego czytelnika')
+        print('2. Usunąć czytelnika')
+        print('3. Edytować czytelnika')
+        print('4. Wyświetlić wszystkich czytelników')
+        print('5. Cofnij do głównego Menu')
+        code = input()
+        match code.strip():
+            case '1':
+                pass
+            case '2':
+                pass
+            case '3':
+                pass
+            case '4':
+                pass
+            case '5':
+                return library
+            case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
+                print('Podany zły kod')
+
+
+def book_interface(library:Library)->Library:
+    while True:
+        print('Jesteś w sekcji książek:')
+        print('możesz w niej zrobić:')
+        print('1. Dodać nową książkę')
+        print('2. Usunąć książkę')
+        print('3. Edytować książkę')
+        print('4. Wyświetlić wszystkie książki')
+        print('5. Cofnij do głównego Menu')
+        code = input()
+        match code.strip():
+            case '1':
+                pass
+            case '2':
+                pass
+            case '3':
+                pass
+            case '4':
+                pass
+            case '5':
+                return library
+            case _:
+                print('Podany zły kod')
+
+def rent_interface(library:Library)->Library:
+    while True:
+        print('Jesteś w sekcji Wyporzyczenia:')
+        print('możesz w niej zrobić:')
+        print('1. Wyporzyczyć książkę')
+        print('2. Zwrócić książkę')
+        print('3. Wyjść do głównego menu')
+        code = input()
+        match code.strip():
+            case '1':
+                pass
+            case '2':
+                pass
+            case '3':
+                return library
+            case _:
+                print('Podany zły kod')
+
+def new_interface(library:Library) -> Library:
+    init()
+    width = shutil.get_terminal_size().columns
+    text = 'Witaj w bibliotece'
+    ready_text = Fore.MAGENTA + text + Style.RESET_ALL
+
+    print(ready_text.center(width))
+    while True:
+        print('Wybierz kategorie: ')
+        print('1. Czytelnik')
+        print('2. Książki')
+        print('3. Wypożyczenia')
+        print('4. Wyjście z Programu')
+        code = (int)(input())
+        match code:
+            case 1:
+                reader_interface(library)
+            case 2:
+                book_interface(library)
+            case 3:
+                rent_interface(library)
+            case 4:
+                print("Do Widzenia".center(50, ' '))
+                return library
 
 
 def interface(library:Library) -> Library:
@@ -26,7 +119,7 @@ def interface(library:Library) -> Library:
         # 1 to czcytlenice
         # 2 ksiżski
         # 3 wyporzycenia
-        print('Możesz w miej zrobić:')
+        print('Możesz w niej zrobić:')
         print('\033[32m1. Dodać Czytelnika\033[0m')
         print('\033[31m2. Usunąć czytelnika\033[0m')
         print('3. Edytuj czytlenika')
@@ -34,7 +127,7 @@ def interface(library:Library) -> Library:
         print('5. Dodaj książkę')
         print('6. Usuń książkę')
         print('7. Edytuj książke')
-        print('8. Wyświtl ksiązki')
+        print('8. Wyświtl książki')
         print('9. Wyjść')
         print('10 Wypożyczenie książki')
         print('11 Zwrot książki')
@@ -126,8 +219,9 @@ with open("test.plk", "rb") as file:
 # lib.list_of_book = []
 
 
-lib = interface(lib)
+# lib = interface(lib)
 
+lib = new_interface(lib)
 
 
 
