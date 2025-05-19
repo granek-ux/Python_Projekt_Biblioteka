@@ -7,6 +7,7 @@ from Library import Library
 from colorama import init, Fore, Style
 import shutil
 import pandas as pd
+from tabulate import tabulate
 from pprint import pprint
 from datetime import date, datetime
 
@@ -165,9 +166,9 @@ def interface(library:Library) -> Library:
                 # print("\n".join(str(p) for p in lib.list_of_readers))
                 # df = pd.DataFrame(lib.list_of_readers)
                 df = pd.DataFrame([vars(reader) for reader in lib.list_of_readers])
-
+                df_better = df[['name', 'surname', 'address', 'telephone_number','charge']]
                 # Display the DataFrame
-                print(print(df[["name","surname", "charge"]]))
+                print(tabulate(df_better, headers = 'keys', tablefmt = 'psql'))
             case 5:
                 maxid = 0
                 for booktmp in lib.list_of_book:
