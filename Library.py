@@ -2,9 +2,9 @@ import enum
 from enum import Enum
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
-from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken
+from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken, BookNotFound
 from Reader import Reader
-from Resiter import Register
+from Register import Register
 from datetime import date
 
 
@@ -91,7 +91,7 @@ class Library:
     def _findBook(self, title:str, author:str, status:StatusEnum = StatusEnum.Wolny)->Book:
         matches = [b for b in self.list_of_book if b.title == title and b.author == author and b.status == status]
         if len(matches) == 0:
-            raise BookNotRegistered
+            raise BookNotFound
         elif len(matches) == 1:
             book = matches[0]
         else:
@@ -218,6 +218,11 @@ class Library:
     #     regi = Register(reader.id, book.id,today, "Oddanie")
     #
     #     reader.list_of_registers.add(regi)
+
+    def reserve_book (self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+        reader = self._find_Reader(rname, rsurname)
+        book = self._findBook(title = btitle, author = bauthor)
+
 
 
 

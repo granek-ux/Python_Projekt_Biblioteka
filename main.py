@@ -3,6 +3,7 @@ import pickle
 from unittest import case
 
 from Book import Book
+from Exceptions import *
 from Library import Library
 from colorama import init, Fore, Style
 import shutil
@@ -42,13 +43,21 @@ def reader_interface(library:Library) ->Library:
             case '2':
                 name = input("Podaj imie czytelnika:")
                 surname = input("Podaj nazwisko czytelnika:")
-                library.remove_reader(name, surname)
+                try:
+                    library.remove_reader(name, surname)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
 
                 print('Usunałes')
             case '3':
                 name = input("Podaj imie czytelnika:")
                 surname = input("Podaj nazwisko czytelnika:")
-                library.edit_reader(name, surname)
+                try:
+                    library.edit_reader(name, surname)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
             case '4':
                 df = pd.DataFrame([vars(reader) for reader in lib.list_of_readers])
                 df_better = df[['name', 'surname', 'address', 'telephone_number', 'charge']]
@@ -88,12 +97,19 @@ def book_interface(library:Library)->Library:
             case '2':
                 title = input("Podaj tytuł: ")
                 author = input("Podaj autora: ")
-
-                library.remove_book(title, author)
+                try:
+                    library.remove_book(title, author)
+                except BookNotFound:
+                    text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
             case '3':
                 title = input("Podaj tytuł: ")
                 author = input("Podaj autora: ")
-                library.edit_book(title, author)
+                try:
+                    library.edit_book(title, author)
+                except BookNotFound:
+                    text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
             case '4':
                 df = pd.DataFrame([vars(book) for book in lib.list_of_book])
                 df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
@@ -117,13 +133,24 @@ def rent_interface(library:Library)->Library:
                 surname = input("Podaj nazwisko: ")
                 title = input("Podaj tytuł: ")
                 author = input("Podaj autora: ")
+                try:
+                    library.borrow_book(name, surname, title, author)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
+                except BookNotFound:
+                    text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
 
-                library.borrow_book(name, surname, title, author)
             case '2':
                 name = input("Podaj imie: ")
                 surname = input("Podaj nazwisko: ")
 
-                library.return_book(name, surname)
+                try:
+                    library.return_book(name, surname)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
             case '3':
                 return library
             case _:
@@ -137,24 +164,27 @@ def new_interface(library:Library) -> Library:
 
     print(ready_text.center(width))
     while True:
-        print('Wybierz kategorie: ')
-        print('1. Czytelnik')
-        print('2. Książki')
-        print('3. Wypożyczenia')
-        print('4. Wyjście z Programu')
-        code = input()
-        match code:
-            case '1':
-                reader_interface(library)
-            case '2':
-                book_interface(library)
-            case '3':
-                rent_interface(library)
-            case '4':
-                print("Do Widzenia".center(50, ' '))
-                return library
-            case _:
-                print('Podany zły kod')
+        try:
+            print(Fore.LIGHTGREEN_EX + 'Wybierz kategorie: ' + Style.RESET_ALL)
+            print('1. Czytelnik')
+            print('2. Książki')
+            print('3. Wypożyczenia')
+            print('4. Wyjście z Programu')
+            code = input()
+            match code:
+                case '1':
+                    reader_interface(library)
+                case '2':
+                    book_interface(library)
+                case '3':
+                    rent_interface(library)
+                case '4':
+                    print("Do Widzenia".center(50, ' '))
+                    return library
+                case _:
+                    print('Podany zły kod')
+        except Exception:
+            print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
 
 def interface(library:Library) -> Library:
     init()
