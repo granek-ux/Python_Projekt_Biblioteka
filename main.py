@@ -25,13 +25,34 @@ def reader_interface(library:Library) ->Library:
         code = input()
         match code.strip():
             case '1':
-                pass
+                maxid = 0
+                for reader_tmp in lib.list_of_readers:
+                    if reader_tmp.id > maxid:
+                        maxid = reader_tmp.id
+
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+                address = input("Podaj address: ")
+                telephone_number = int(input("Podaj numer telefonu: "))
+                reader = Reader(id=maxid, name=name, surname=surname, address=address, telephone_number=telephone_number)
+                lib.add_reader(reader)
+
+                print('\033[31mDodaleś Czytelnika\033[0m')
+                print(lib.list_of_readers)
             case '2':
-                pass
+                name = input("Podaj imie czytelnika:")
+                surname = input("Podaj nazwisko czytelnika:")
+                library.remove_reader(name, surname)
+
+                print('Usunałes')
             case '3':
-                pass
+                name = input("Podaj imie czytelnika:")
+                surname = input("Podaj nazwisko czytelnika:")
+                library.edit_reader(name, surname)
             case '4':
-                pass
+                df = pd.DataFrame([vars(reader) for reader in lib.list_of_readers])
+                df_better = df[['name', 'surname', 'address', 'telephone_number', 'charge']]
+                print(tabulate(df_better, headers='keys', tablefmt='psql'))
             case '5':
                 return library
             case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
@@ -50,13 +71,33 @@ def book_interface(library:Library)->Library:
         code = input()
         match code.strip():
             case '1':
-                pass
+                maxid = 0
+                for booktmp in lib.list_of_book:
+                    print(type(booktmp))
+                    if booktmp.id > maxid:
+                        maxid = booktmp.id
+
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+                isbn = int(input("Podaj isbn: "))
+                pages = int(input("Podaj ilość stron: "))
+                book = Book(id=maxid + 1, title=title, author=author, isbn=isbn, pages=pages)
+
+                lib.add_book(book)
+                print("ksiązka została dodana")
             case '2':
-                pass
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+
+                library.remove_book(title, author)
             case '3':
-                pass
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+                library.edit_book(title, author)
             case '4':
-                pass
+                df = pd.DataFrame([vars(book) for book in lib.list_of_book])
+                df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+                print(tabulate(df_better, headers='keys', tablefmt='psql'))
             case '5':
                 return library
             case _:
@@ -72,9 +113,17 @@ def rent_interface(library:Library)->Library:
         code = input()
         match code.strip():
             case '1':
-                pass
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+
+                library.borrow_book(name, surname, title, author)
             case '2':
-                pass
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+
+                library.return_book(name, surname)
             case '3':
                 return library
             case _:
@@ -93,18 +142,19 @@ def new_interface(library:Library) -> Library:
         print('2. Książki')
         print('3. Wypożyczenia')
         print('4. Wyjście z Programu')
-        code = (int)(input())
+        code = input()
         match code:
-            case 1:
+            case '1':
                 reader_interface(library)
-            case 2:
+            case '2':
                 book_interface(library)
-            case 3:
+            case '3':
                 rent_interface(library)
-            case 4:
+            case '4':
                 print("Do Widzenia".center(50, ' '))
                 return library
-
+            case _:
+                print('Podany zły kod')
 
 def interface(library:Library) -> Library:
     init()
@@ -226,9 +276,9 @@ with open("test.plk", "rb") as file:
 # lib.list_of_book = []
 
 
-lib = interface(lib)
-#
-# lib = new_interface(lib)
+# lib = interface(lib)
+
+lib = new_interface(lib)
 
 
 
