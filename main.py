@@ -1,4 +1,6 @@
 import os
+import subprocess
+import sys
 import pickle
 from unittest import case
 
@@ -13,6 +15,15 @@ from pprint import pprint
 from datetime import date, datetime
 
 from Reader import Reader
+
+def check_and_install(package):
+    try:
+         __import__(package)
+         print(f"{package} jest już zainstalowane.")
+    except ImportError:
+         print(f"{package} nie jest zainstalowane. Próbuję zainstalować...")
+         subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+         print(f"{package} zostało pomyślnie zainstalowane.")
 
 def reader_interface(library:Library) ->Library:
     while True:
@@ -294,6 +305,9 @@ def interface(library:Library) -> Library:
 
 # cos = Library()
 # odczyt z pliku
+
+
+
 with open("test.plk", "rb") as file:
     lib = pickle.load(file)
 
@@ -305,6 +319,10 @@ with open("test.plk", "rb") as file:
 #
 # lib.list_of_book = []
 
+check_and_install("tabulate")
+check_and_install("pandas")
+check_and_install("colorama")
+check_and_install("Library")
 
 # lib = interface(lib)
 
@@ -327,3 +345,4 @@ with open("test.plk", "wb") as file:
 # print(roznica)            # pełna różnica (np. 380 days, 19:45:00)
 # print(roznica.days)       # tylko dni
 # print(roznica.total_seconds())
+
