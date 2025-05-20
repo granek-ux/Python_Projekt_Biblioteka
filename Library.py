@@ -1,11 +1,15 @@
 import enum
 from enum import Enum
+
+import pandas as pd
+from tabulate import tabulate
+
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
 from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken, BookNotFound
 from Reader import Reader
 from Register import Register
-from datetime import date
+from datetime import date, timedelta
 
 
 class Library:
@@ -14,19 +18,19 @@ class Library:
     def __init__(self):
         self.list_of_readers = []
         self.list_of_book = []  # albo to zroibc jako mapa która posaida id ksiązki/nazwe coś unikalnego i jego liczbę bo mamy przechwywać klika takich samych książek
-        self.map_of_rader_book = {}
+        # self.map_of_rader_book = {}
         #     mapa która jako klucz będzie miała czytelnika np: jego id
         #     a jako wartość liste książek która wypozyczył
         # self.book_quantity = {}
 
-        self.list_of_registers = []
+        # self.list_of_registers = []
 
     #     klucz czytelnik
     #     valve jego historia data operacji, tytuł książki, typ operacji(zwrot/wypożyczenie/przedłużenie/rezerwacja)
 
     def add_reader(self, reader: Reader) -> None:
         self.list_of_readers.append(reader)
-        self.map_of_rader_book[reader] = []
+        # self.map_of_rader_book[reader] = []
 
     def _find_Reader(self,name:str, surname:str) -> Reader:
         matches = [r for r in self.list_of_readers if r.name == name and r.surname == surname]
@@ -146,16 +150,83 @@ class Library:
     def get_history(self, reader_id: int) -> str:
         return self.map_reader_history[reader_id]
 
+    @staticmethod
+    def _found_Book_By_isbn(looking_isbn: int, list_of_book:list) -> Book:
+        for book in list_of_book:
+            if book.isbn == looking_isbn:
+                if book.status == StatusEnum.Wolny:
+                    return book
+
+        lowest_date = date.max
+        found_book = None
+        for book in list_of_book:
+            if book.isbn == looking_isbn:
+                if book.status == StatusEnum.Wyporzyczona:
+                    if book.borrow_date < lowest_date:
+                        lowest_date = book.borrow_date
+                        found_book = book
+
+        return found_book
+
+    def _borrow_final(self,reader:Reader, book:Book) -> None:
+        if book.status == StatusEnum.Wolny:
+            book.status = StatusEnum.Wyporzyczona
+            reader.list_of_Borrowed_Books.append(book)
+            book.borrow_date = date.today()
+            today = date.today()
+            regi = Register(reader.id, book.id,today, RegisterEnum.Wyporzyczenie)
+            reader.list_of_registers.append(regi)
+            book.borrow_date = today
+            return
+        else:
+            print(f"Wszystkie książki wypożyczone, wróci na stan: {book.borrow_date + timedelta(days=30)}")
+            print(f"Czy chcesz zarezerwować? y/n")
+            answer = input().lower().strip()
+
+            if answer == 'y':
+                book.status = StatusEnum.Zarezewowana_Wypozyczona
+                reader.list_of_Reserved_Books.append(book)
+                today = date.today()
+                regi = Register(reader.id, book.id,today, RegisterEnum.Zarezerwowanie)
+                reader.list_of_registers.append(regi)
+            elif answer == 'n':
+                return
+
     def borrow_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
-        reader = self._find_Reader(rname, rsurname)   
-        book = self._findBook(title = btitle, author = bauthor)
+        reader = self._find_Reader(rname, rsurname)
+        matching_books = []
+        found_isbn = []
+        for book in self.list_of_book:
+            if book.status == StatusEnum.Wolny or book.status == StatusEnum.Wyporzyczona:
+                if book.title == btitle and book.author == bauthor:
+                    if not book.isbn in found_isbn:
+                        found_isbn.append(book.isbn)
+                    matching_books.append(book)
 
-        book.status = StatusEnum.Wyporzyczona
-        today = date.today()
-        regi = Register(reader.id, book.id,today, RegisterEnum.Wyporzyczenie)
+        if len(found_isbn) == 0:
+            raise BookNotFound
 
-        reader.list_of_registers.append(regi)
-        reader.list_of_Borrowed_Books.append(book)
+        if len(found_isbn) == 1:
+            book = self._found_Book_By_isbn(found_isbn[0], matching_books)
+            self._borrow_final(reader, book)
+            return
+
+        final_list =[]
+        for isbn in found_isbn:
+            final_list.append(self._found_Book_By_isbn(isbn, matching_books))
+
+        df = pd.DataFrame([vars(book) for book in final_list])
+        df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+        df_better.index += 1
+        print(tabulate(df_better, headers='keys', tablefmt='psql'))
+        while True:
+            code = int(input("Podaj numer książki którą chcesz wypożyczyć: "))
+            if code in df_better.index:
+                break
+        book = final_list[code - 1]
+
+        self._borrow_final(reader, book)
+
 
     def calculateCosts(self, date_of_borow: date) -> int:
         dayToday = date.today()
@@ -169,6 +240,8 @@ class Library:
         reader = self._find_Reader(rname, rsurname)
 
         print('Wybierz książkę: ')
+
+        #todo na dataframe
         lookingid = 1
         for book in reader.list_of_Borrowed_Books:
             print(f"numer: {lookingid} to: {str(book)}")
@@ -176,48 +249,29 @@ class Library:
         id_wanted = int(input("podaj żądane Id: "))
         book = reader.list_of_Borrowed_Books[id_wanted - 1]
 
-        book.status = StatusEnum.Wolny
+        if book.status == StatusEnum.Wyporzyczona:
+            book.status = StatusEnum.Wolny
+        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
+            book.status = StatusEnum.Zarezewowana_Wolna
+
         today = date.today()
         regi = Register(reader.id, book.id, today, RegisterEnum.Oddanie)
 
         reader.list_of_registers.append(regi)
         reader.list_of_Borrowed_Books.remove(book)
 
-        # borrow_date =1
-        # latest_register_of_book = max(
-        #     (r for r in reader.list_of_registers if r.book_id == target_book_id and r.operation == "wypożyczenie"),
-        #     key=lambda r: r.date,
-        #     default=None  # jeśli nie ma takiego wpisu
-        # )
+        book.borrow_date = None
+
+
         for register in reader.list_of_registers[::-1]:
             if register.book_id == book.id and register.operation == RegisterEnum.Wyporzyczenie:
                 date_of_borow = register.date
                 cost = self.calculateCosts(date_of_borow)
-                cost = 5
+                # cost = 5
                 reader.charge += cost
                 break
 
-        # latest_register_of_book = None
-        # for register in reader.list_of_registers:
-        #     if register.book_id == target_book_id and register.operation == "wypożyczenie":
-        #         if latest_register_of_book is None or register.date > latest_register_of_book.date:
-        #             latest_register_of_book = register
 
-
-
-
-
-
-
-    # def return_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
-    #     reader = self._find_Reader(rname, rsurname)
-    #     book = self._findBook(title=btitle, author=bauthor, status= StatusEnum.Wyporzyczona)
-    #
-    #     book.status = StatusEnum.Wolny
-    #     today = date.today()
-    #     regi = Register(reader.id, book.id,today, "Oddanie")
-    #
-    #     reader.list_of_registers.add(regi)
 
     def reserve_book (self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
         reader = self._find_Reader(rname, rsurname)

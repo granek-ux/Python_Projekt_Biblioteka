@@ -8,6 +8,7 @@ class Reader:
         self.telephone_number = telephone_number
         self.list_of_registers = []
         self.list_of_Borrowed_Books = []
+        self.list_of_Reserved_Books = []
         self.charge = 0
 
     #     histoira

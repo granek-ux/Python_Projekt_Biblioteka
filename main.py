@@ -175,12 +175,13 @@ def new_interface(library:Library) -> Library:
 
     print(ready_text.center(width))
     while True:
-        try:
+        # try:
             print(Fore.LIGHTGREEN_EX + 'Wybierz kategorie: ' + Style.RESET_ALL)
             print('1. Czytelnik')
             print('2. Książki')
             print('3. Wypożyczenia')
-            print('4. Wyjście z Programu')
+            print('4. Rezerwacje')
+            print('5. Wyjście z Programu')
             code = input()
             match code:
                 case '1':
@@ -189,13 +190,13 @@ def new_interface(library:Library) -> Library:
                     book_interface(library)
                 case '3':
                     rent_interface(library)
-                case '4':
+                case '5':
                     print("Do Widzenia".center(50, ' '))
                     return library
                 case _:
                     print('Podany zły kod')
-        except Exception:
-            print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
+        # except Exception:
+        #     print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
 
 def interface(library:Library) -> Library:
     init()
@@ -319,10 +320,10 @@ with open("test.plk", "rb") as file:
 #
 # lib.list_of_book = []
 
-check_and_install("tabulate")
-check_and_install("pandas")
-check_and_install("colorama")
-check_and_install("Library")
+# check_and_install("tabulate")
+# check_and_install("pandas")
+# check_and_install("colorama")
+# check_and_install("Library")
 
 # lib = interface(lib)
 
