@@ -6,7 +6,7 @@ from tabulate import tabulate
 
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
-from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken, BookNotFound
+from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken, BookNotFound, NoBookReserved
 from Reader import Reader
 from Register import Register
 from datetime import date, timedelta
@@ -240,14 +240,23 @@ class Library:
         reader = self._find_Reader(rname, rsurname)
 
         print('Wybierz książkę: ')
-
-        #todo na dataframe
-        lookingid = 1
+        book_list = []
         for book in reader.list_of_Borrowed_Books:
-            print(f"numer: {lookingid} to: {str(book)}")
-            lookingid += 1
-        id_wanted = int(input("podaj żądane Id: "))
-        book = reader.list_of_Borrowed_Books[id_wanted - 1]
+            book_list.append(book)
+
+        if len(book_list) == 0:
+            raise BookNotFound
+
+        df = pd.DataFrame([vars(book) for book in book_list])
+        df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+        df_better.index += 1
+        print(tabulate(df_better, headers='keys', tablefmt='psql'))
+
+        while True:
+            code = int(input("Podaj numer książki którą chcesz zarządzać: "))
+            if code in df_better.index:
+                break
+        book = book_list[code - 1]
 
         if book.status == StatusEnum.Wyporzyczona:
             book.status = StatusEnum.Wolny
@@ -273,10 +282,62 @@ class Library:
 
 
 
-    def reserve_book (self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+    def manage_reservation (self, rname:str, rsurname:str) -> None:
         reader = self._find_Reader(rname, rsurname)
-        book = self._findBook(title = btitle, author = bauthor)
 
+        wanted_book_list = []
+        for book in reader.list_of_Reserved_Books:
+            if book.status == StatusEnum.Zarezewowana_Wolna or book.status == StatusEnum.Zarezewowana_Wypozyczona:
+                wanted_book_list.append(book)
+
+        if len(wanted_book_list) == 0:
+            raise NoBookReserved
+
+        print('Wybierz książkę: ')
+
+        df = pd.DataFrame([vars(book) for book in wanted_book_list])
+        df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+        df_better.index += 1
+        print(tabulate(df_better, headers='keys', tablefmt='psql'))
+
+        while True:
+            code = int(input("Podaj numer książki którą chcesz zarządzać: "))
+            if code in df_better.index:
+                break
+        book = wanted_book_list[code - 1]
+
+        if book.status == StatusEnum.Zarezewowana_Wypozyczona:
+            print("czy chcesz odwolac rezerwacje? y/n")
+            answer = input().lower().strip()
+            if answer == 'y':
+                book.status = StatusEnum.Wyporzyczona
+                reader.list_of_Reserved_Books.remove(book)
+                today = date.today()
+                regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+                reader.list_of_registers.append(regi)
+            elif answer == 'n':
+                return
+
+        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
+            print("czy chcesz wyporzyczyć? y/n")
+            answer = input().lower().strip()
+            if answer == 'y':
+                book.status = StatusEnum.Wyporzyczona
+                reader.list_of_Reserved_Books.remove(book)
+                today = date.today()
+                regi = Register(reader.id, book.id, today, RegisterEnum.Wyporzyczenie)
+                reader.list_of_registers.append(regi)
+            elif answer == 'n':
+                print("czy chcesz odwolac rezerwacje? y/n")
+                answer = input().lower().strip()
+                if answer == 'y':
+                    book.status = StatusEnum.Wolny
+                    reader.list_of_Reserved_Books.remove(book)
+                    today = date.today()
+                    regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+                    reader.list_of_registers.append(regi)
+                elif answer == 'n':
+                    return
 
 
 

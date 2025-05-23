@@ -17,3 +17,7 @@ class BookNotRegistered(Exception):
 class BookAlreadyTaken(Exception):
     #kiedy nie ma wolej książki
     pass
+
+class NoBookReserved(Exception):
+    #kiedy nie ma zarezerwowanej książki
+    pass

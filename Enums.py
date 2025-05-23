@@ -10,3 +10,5 @@ class RegisterEnum(Enum):
     Wyporzyczenie = 'Wyporzyczenie'
     Oddanie = 'Oddanie'
     Zarezerwowanie = 'Zarezerwowanie'
+    Rezerwacja_Oddanie = 'Rezerwacja Oddanie'
+    Rezerwacja = 'Rezerwacja'

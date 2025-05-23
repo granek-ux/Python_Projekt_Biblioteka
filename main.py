@@ -167,6 +167,33 @@ def rent_interface(library:Library)->Library:
             case _:
                 print('Podany zły kod')
 
+def Reservation_interface(library:Library)->Library:
+    while True:
+        print('Jesteś w sekcji Rezerwacji:')
+        print('możesz w niej zrobić:')
+        print('1. Odebrać rezerwacje')
+        # print('2. Odwołać rezerwację')
+        print('3. Wyjść do głównego menu')
+        code = input()
+        match code.strip():
+            case '1':
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+                title = input("Podaj tytuł: ")
+                author = input("Podaj autora: ")
+
+                library.manage_reservation(name, surname, title, author)
+            # case '2':
+            #     name = input("Podaj imie: ")
+            #     surname = input("Podaj nazwisko: ")
+            #
+            #     library.cancel_reservation(name, surname)
+            case '3':
+                return library
+            case _:
+                print('Podany zły kod')
+
+
 def new_interface(library:Library) -> Library:
     init()
     width = shutil.get_terminal_size().columns
@@ -190,6 +217,8 @@ def new_interface(library:Library) -> Library:
                     book_interface(library)
                 case '3':
                     rent_interface(library)
+                case '4':
+                    Reservation_interface(library)
                 case '5':
                     print("Do Widzenia".center(50, ' '))
                     return library
@@ -320,10 +349,10 @@ with open("test.plk", "rb") as file:
 #
 # lib.list_of_book = []
 
-# check_and_install("tabulate")
-# check_and_install("pandas")
-# check_and_install("colorama")
-# check_and_install("Library")
+check_and_install("tabulate")
+check_and_install("pandas")
+check_and_install("colorama")
+check_and_install("Library")
 
 # lib = interface(lib)
 
