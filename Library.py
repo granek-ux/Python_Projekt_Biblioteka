@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
-from Exceptions import ReaderNotFound, BookNotFound, NoBookReserved, ExtendNotPossible
+from Exceptions import ReaderNotFound, BookNotFound, NoBookReserved, ExtendNotPossible, NoHistory
 from Reader import Reader
 from Register import Register
 
@@ -314,7 +314,15 @@ class Library:
             raise ExtendNotPossible
 
     def reader_history(self, rname: str, rsurname: str) -> None:
-        pass
+        reader = self._find_Reader(rname, rsurname)
+
+        if len(reader.list_of_registers) == 0:
+            raise NoHistory
+
+        df = pd.DataFrame([vars(register) for register in reader.list_of_registers])
+        df_better = df[['date', 'operation', 'book_id']]
+        print(tabulate(df_better, headers='keys', tablefmt='psql'))
+
 
 
 

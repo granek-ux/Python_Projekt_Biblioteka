@@ -33,6 +33,10 @@ class NoAvailableBooks(Exception):
 class NoBorrowedBooks(Exception):
     #kiedy nie ma wypożyczonych książek
     pass
+
+class NoHistory(Exception):
+    #kiedy nie ma historii wypożyczeń
+    pass
 #todo
 # wiecej wyjątków!!!!!!!!
 # z gpt do przemyślenia

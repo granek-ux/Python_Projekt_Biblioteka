@@ -83,6 +83,9 @@ def reader_interface(library:Library) ->Library:
                 except ReaderNotFound:
                     text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
                     print(text)
+                except NoHistory:
+                    text = Fore.RED + 'BRAK HISTORII CZYTELNIKA' + Style.RESET_ALL
+                    print(text)
             case '6':
                 return library
             case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
@@ -165,9 +168,6 @@ def book_interface(library:Library)->Library:
                     text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
                     print(text)
             case '4':
-                # df = pd.DataFrame([vars(book) for book in lib.list_of_book])
-                # df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
-                # print(tabulate(df_better, headers='keys', tablefmt='psql'))
                 show_Books(library)
             case '5':
                 return library
