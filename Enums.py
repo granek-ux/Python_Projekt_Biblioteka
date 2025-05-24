@@ -12,3 +12,4 @@ class RegisterEnum(Enum):
     Zarezerwowanie = 'Zarezerwowanie'
     Rezerwacja_Oddanie = 'Rezerwacja Oddanie'
     Rezerwacja = 'Rezerwacja'
+    Przedluzenie = "Przedluzenie"

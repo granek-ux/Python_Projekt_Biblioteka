@@ -1,15 +1,13 @@
-import enum
-from enum import Enum
+from datetime import date, timedelta
 
 import pandas as pd
 from tabulate import tabulate
 
 from Book import Book
 from Enums import StatusEnum, RegisterEnum
-from Exceptions import ReaderNotFound, BookNotRegistered, BookAlreadyTaken, BookNotFound, NoBookReserved
+from Exceptions import ReaderNotFound, BookNotFound, NoBookReserved, ExtendNotPossible
 from Reader import Reader
 from Register import Register
-from datetime import date, timedelta
 
 
 class Library:
@@ -273,12 +271,62 @@ class Library:
 
 
         for register in reader.list_of_registers[::-1]:
-            if register.book_id == book.id and register.operation == RegisterEnum.Wyporzyczenie:
+            if register.book_id == book.id and (register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
                 date_of_borow = register.date
                 cost = self.calculateCosts(date_of_borow)
                 # cost = 5
                 reader.charge += cost
                 break
+
+    def extend_borrow(self, rname: str, rsurname: str) -> None:
+        reader = self._find_Reader(rname, rsurname)
+
+        print('Wybierz książkę: ')
+        book_list = []
+        for book in reader.list_of_Borrowed_Books:
+            book_list.append(book)
+
+        if len(book_list) == 0:
+            raise BookNotFound
+
+        df = pd.DataFrame([vars(book) for book in book_list])
+        df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+        df_better.index += 1
+        print(tabulate(df_better, headers='keys', tablefmt='psql'))
+
+        while True:
+            code = int(input("Podaj numer książki którą chcesz zarządzać: "))
+            if code in df_better.index:
+                break
+        book = book_list[code - 1]
+
+        if book.status == StatusEnum.Wyporzyczona:
+            #zwrć i wyporzycz
+            today = date.today()
+            regi = Register(reader.id, book.id, today, RegisterEnum.Przedluzenie)
+
+            reader.list_of_registers.append(regi)
+            # reader.list_of_Borrowed_Books.remove(book)
+
+            book.borrow_date = None
+
+            for register in reader.list_of_registers[::-1]:
+                if register.book_id == book.id and (register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
+                    date_of_borow = register.date
+                    cost = self.calculateCosts(date_of_borow)
+                    # cost = 5
+                    reader.charge += cost
+                    break
+
+        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
+            #akcja niemożliwa, koniec
+            raise ExtendNotPossible
+
+    def reader_history(self, rname: str, rsurname: str) -> None:
+        pass
+
+
+
 
 
 

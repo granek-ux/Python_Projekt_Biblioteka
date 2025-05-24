@@ -33,7 +33,8 @@ def reader_interface(library:Library) ->Library:
         print('2. Usunąć czytelnika')
         print('3. Edytować czytelnika')
         print('4. Wyświetlić wszystkich czytelników')
-        print('5. Cofnij do głównego Menu')
+        print('5. Wyświetlenie historii czytelnika')
+        print('6. Cofnij do głównego Menu')
         code = input()
         match code.strip():
             case '1':
@@ -74,6 +75,14 @@ def reader_interface(library:Library) ->Library:
                 df_better = df[['name', 'surname', 'address', 'telephone_number', 'charge']]
                 print(tabulate(df_better, headers='keys', tablefmt='psql'))
             case '5':
+                name = input("Podaj imie czytelnika:")
+                surname = input("Podaj nazwisko czytelnika:")
+                try:
+                    library.reader_history(name, surname)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
+            case '6':
                 return library
             case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
                 print('Podany zły kod')
@@ -132,11 +141,12 @@ def book_interface(library:Library)->Library:
 
 def rent_interface(library:Library)->Library:
     while True:
-        print('Jesteś w sekcji Wyporzyczenia:')
+        print('Jesteś w sekcji Wypożyczenia:')
         print('możesz w niej zrobić:')
-        print('1. Wyporzyczyć książkę')
+        print('1. Wypożyczyć książkę')
         print('2. Zwrócić książkę')
-        print('3. Wyjść do głównego menu')
+        print('3. Przedłuż wypożyczenie')
+        print('4. Wyjść do głównego menu')
         code = input()
         match code.strip():
             case '1':
@@ -162,7 +172,18 @@ def rent_interface(library:Library)->Library:
                 except ReaderNotFound:
                     text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
                     print(text)
+
             case '3':
+                name = input("Podaj imie: ")
+                surname = input("Podaj nazwisko: ")
+
+                try:
+                    library.extend_borrow(name, surname)
+                except ReaderNotFound:
+                    text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                    print(text)
+
+            case '4':
                 return library
             case _:
                 print('Podany zły kod')

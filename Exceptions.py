@@ -22,6 +22,10 @@ class NoBookReserved(Exception):
     #kiedy nie ma zarezerwowanej książki
     pass
 
+class ExtendNotPossible(Exception):
+    #kiedy nie można przedłużyć wypożyczenia z powodu rezerwacji
+    pass
+
 #todo
 # wiecej wyjątków!!!!!!!!
 # z gpt do przemyślenia
