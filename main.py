@@ -235,10 +235,10 @@ def Reservation_interface(library:Library)->Library:
             case '1':
                 name = input("Podaj imie: ")
                 surname = input("Podaj nazwisko: ")
-                title = input("Podaj tytuł: ")
-                author = input("Podaj autora: ")
+                # title = input("Podaj tytuł: ")
+                # author = input("Podaj autora: ")
 
-                library.manage_reservation(name, surname, title, author)
+                library.manage_reservation(name, surname ) #, title, author)
             # case '2':
             #     name = input("Podaj imie: ")
             #     surname = input("Podaj nazwisko: ")
@@ -284,7 +284,7 @@ def new_interface(library:Library) -> Library:
         #     print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
 
 
-with open("test.plk", "rb") as file:
+with open("Dane.plk", "rb") as file:
     lib = pickle.load(file)
 
 # print("\n".join(str(p) for p in lib.list_of_readers))
@@ -310,7 +310,7 @@ lib = new_interface(lib)
 # zapis do pliku po każdym działaniu programu aby nie tracić danych
 
 # zapis do pliku
-with open("test.plk", "wb") as file:
+with open("Dane.plk", "wb") as file:
     pickle.dump(lib, file)
 
 
