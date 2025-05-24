@@ -5,6 +5,7 @@ import pickle
 from unittest import case
 
 from Book import Book
+from Enums import StatusEnum
 from Exceptions import *
 from Library import Library
 from colorama import init, Fore, Style
@@ -87,6 +88,39 @@ def reader_interface(library:Library) ->Library:
             case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
                 print('Podany zły kod')
 
+def show_Books(library:Library):
+    print('Możesz wyśiwtlić: ')
+    print("1. Wszystkie dostępne książki")
+    print('2. Wszytskie wypożyczone książki')
+    while True:
+        code = input()
+        try:
+            match code.strip():
+                case '1':
+                    df = pd.DataFrame([vars(book) for book in library.list_of_book if book.status == StatusEnum.Wolny])
+                    if df.empty:
+                        raise NoAvailableBooks
+                    df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+                    print(tabulate(df_better, headers='keys', tablefmt='psql'))
+                    return
+                case '2':
+                    df = pd.DataFrame([vars(book) for book in library.list_of_book if book.status == StatusEnum.Wyporzyczona])
+                    if df.empty:
+                        raise NoBorrowedBooks
+                    df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+                    print(tabulate(df_better, headers='keys', tablefmt='psql'))
+                    return
+                case _:
+                    print('Podany zły kod')
+        except NoAvailableBooks:
+            text = Fore.RED + 'BRAK DOSTĘPNYCH KSIĄŻEK' + Style.RESET_ALL
+            print(text)
+            return
+        except NoBorrowedBooks:
+            text = Fore.RED + 'BRAK WYPOŻYCZONYCH KSIĄŻEK' + Style.RESET_ALL
+            print(text)
+            return
+
 
 def book_interface(library:Library)->Library:
     while True:
@@ -95,7 +129,7 @@ def book_interface(library:Library)->Library:
         print('1. Dodać nową książkę')
         print('2. Usunąć książkę')
         print('3. Edytować książkę')
-        print('4. Wyświetlić wszystkie książki')
+        print('4. Wyświetlić książki')
         print('5. Cofnij do głównego Menu')
         code = input()
         match code.strip():
@@ -131,9 +165,10 @@ def book_interface(library:Library)->Library:
                     text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
                     print(text)
             case '4':
-                df = pd.DataFrame([vars(book) for book in lib.list_of_book])
-                df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
-                print(tabulate(df_better, headers='keys', tablefmt='psql'))
+                # df = pd.DataFrame([vars(book) for book in lib.list_of_book])
+                # df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+                # print(tabulate(df_better, headers='keys', tablefmt='psql'))
+                show_Books(library)
             case '5':
                 return library
             case _:
@@ -247,116 +282,6 @@ def new_interface(library:Library) -> Library:
                     print('Podany zły kod')
         # except Exception:
         #     print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
-
-def interface(library:Library) -> Library:
-    init()
-    width = shutil.get_terminal_size().columns
-    text = 'Witaj w bibliotece'
-    ready_text = Fore.MAGENTA + text + Style.RESET_ALL
-
-    print(ready_text.center(width))
-    # ewentualnie biblioteka dla łatwiejszej składni
-    # bo ta domyślna to mało wygodna
-    while True:
-        print("\n")
-        # podzielić to na 3 sekcje
-        # 1 to czcytlenice
-        # 2 ksiżski
-        # 3 wyporzycenia
-        print('Możesz w niej zrobić:')
-        print('\033[32m1. Dodać Czytelnika\033[0m')
-        print('\033[31m2. Usunąć czytelnika\033[0m')
-        print('3. Edytuj czytlenika')
-        print('4. Wyświelt czytleników')
-        print('5. Dodaj książkę')
-        print('6. Usuń książkę')
-        print('7. Edytuj książke')
-        print('8. Wyświtl książki')
-        print('9. Wyjść')
-        print('10 Wypożyczenie książki')
-        print('11 Zwrot książki')
-
-        code = (int)(input())
-        match (code):
-            case 1:
-                maxid = 0
-                for readertmp in lib.list_of_readers:
-                    if readertmp.id > maxid:
-                        maxid = readertmp.id
-
-                name = input("Podaj imie: ")
-                surname = input("Podaj nazwisko: ")
-                address = input("Podaj address: ")
-                telephone_number = int(input("Podaj numer telefonu: "))
-                reader = Reader(id = maxid, name = name, surname = surname, address = address, telephone_number = telephone_number)
-                lib.add_reader(reader)
-
-                print('\033[31mDodaleś Czytelnika\033[0m')
-                print(lib.list_of_readers)
-            case 2:
-                name = input("Podaj imie czytelnika:")
-                surname = input("Podaj nazwisko czytelnika:")
-                library.remove_reader(name, surname)
-
-                print('Usunałes')
-            case 3:
-                name = input("Podaj imie czytelnika:")
-                surname = input("Podaj nazwisko czytelnika:")
-                library.edit_reader(name, surname)
-
-            case 4:
-                # print("\n".join(str(p) for p in lib.list_of_readers))
-                # df = pd.DataFrame(lib.list_of_readers)
-                df = pd.DataFrame([vars(reader) for reader in lib.list_of_readers])
-                df_better = df[['name', 'surname', 'address', 'telephone_number','charge']]
-                # Display the DataFrame
-                print(tabulate(df_better, headers = 'keys', tablefmt = 'psql'))
-            case 5:
-                maxid = 0
-                for booktmp in lib.list_of_book:
-                    print(type(booktmp))
-                    if booktmp.id > maxid:
-                        maxid = booktmp.id
-
-                title = input("Podaj tytuł: ")
-                author = input("Podaj autora: ")
-                isbn = int(input("Podaj isbn: "))
-                pages = int(input("Podaj ilość stron: "))
-                book = Book(id = maxid+1, title = title, author = author, isbn = isbn, pages = pages)
-
-                lib.add_book(book)
-                print("ksiązka została dodana")
-            case 6:
-                title = input("Podaj tytuł: ")
-                author = input("Podaj autora: ")
-
-
-                library.remove_book(title, author)
-            case 7:
-                title = input("Podaj tytuł: ")
-                author = input("Podaj autora: ")
-                library.edit_book(title, author)
-            case 8:
-                print("\n".join(str(p) for p in lib.list_of_book))
-            case 9:
-                print("Do Widzenia".center(50, ' '))
-                return library
-            case 10:
-                name = input("Podaj imie: ")
-                surname = input("Podaj nazwisko: ")
-                title = input("Podaj tytuł: ")
-                author = input("Podaj autora: ")
-
-                library.borrow_book(name, surname, title, author)
-            case 11:
-                name = input("Podaj imie: ")
-                surname = input("Podaj nazwisko: ")
-
-                library.return_book(name, surname)
-
-# cos = Library()
-# odczyt z pliku
-
 
 
 with open("test.plk", "rb") as file:

@@ -139,15 +139,6 @@ class Library:
         self.list_of_book.remove(book)
         # self.book_quantity[book.title] =  self.book_quantity[book.title] - 1
 
-    def _add_history(self, reader_id: int, log: str) -> None:
-        if reader_id in self.list_of_readers:
-            self.map_reader_history[reader_id].append('\n').append(log)
-        else:
-            raise ReaderNotFound('Reader has not been registered yet')
-
-    def get_history(self, reader_id: int) -> str:
-        return self.map_reader_history[reader_id]
-
     @staticmethod
     def _found_Book_By_isbn(looking_isbn: int, list_of_book:list) -> Book:
         for book in list_of_book:
