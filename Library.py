@@ -30,7 +30,7 @@ class Library:
         self.list_of_readers.append(reader)
         # self.map_of_rader_book[reader] = []
 
-    def _find_Reader(self,name:str, surname:str) -> Reader:
+    def _find_Reader(self, name: str, surname: str) -> Reader:
         matches = [r for r in self.list_of_readers if r.name == name and r.surname == surname]
         if len(matches) == 0:
             raise ReaderNotFound
@@ -47,11 +47,11 @@ class Library:
 
         return reader
 
-    def remove_reader(self, name:str, surname:str) -> None:
+    def remove_reader(self, name: str, surname: str) -> None:
         reader = self._find_Reader(name, surname)
         self.list_of_readers.remove(reader)
 
-    def edit_reader(self, name:str, surname:str):
+    def edit_reader(self, name: str, surname: str):
 
         reader = self._find_Reader(name, surname)
 
@@ -80,7 +80,6 @@ class Library:
                 tln = int(input("Podaj nowy numer telefonu: "))
                 reader.telephone_number = tln
 
-
     def add_book(self, book: Book) -> None:
         self.list_of_book.append(book)
         # if (book.title in self.book_quantity.keys()):
@@ -88,9 +87,7 @@ class Library:
         # else:
         #     self.book_quantity[book.title] = 1
 
-
-
-    def _findBook(self, title:str, author:str, status:StatusEnum = StatusEnum.Wolny)->Book:
+    def _findBook(self, title: str, author: str, status: StatusEnum = StatusEnum.Wolny) -> Book:
         matches = [b for b in self.list_of_book if b.title == title and b.author == author and b.status == status]
         if len(matches) == 0:
             raise BookNotFound
@@ -107,7 +104,7 @@ class Library:
 
         return book
 
-    def edit_book(self, title:str, author:str) -> None:
+    def edit_book(self, title: str, author: str) -> None:
         book = self._findBook(title, author)
         print('Co chcesz edytować?: ')
         print("1. Tytuł")
@@ -133,14 +130,14 @@ class Library:
                 pages = int(input("Podaj nową ilość stron: "))
                 book.pages = pages
 
-    def remove_book(self, title:str, author:str) -> None:
+    def remove_book(self, title: str, author: str) -> None:
         book = self._findBook(title, author)
 
         self.list_of_book.remove(book)
         # self.book_quantity[book.title] =  self.book_quantity[book.title] - 1
 
     @staticmethod
-    def _found_Book_By_isbn(looking_isbn: int, list_of_book:list) -> Book:
+    def _found_Book_By_isbn(looking_isbn: int, list_of_book: list) -> Book:
         for book in list_of_book:
             if book.isbn == looking_isbn:
                 if book.status == StatusEnum.Wolny:
@@ -157,13 +154,13 @@ class Library:
 
         return found_book
 
-    def _borrow_final(self,reader:Reader, book:Book) -> None:
+    def _borrow_final(self, reader: Reader, book: Book) -> None:
         if book.status == StatusEnum.Wolny:
             book.status = StatusEnum.Wyporzyczona
             reader.list_of_Borrowed_Books.append(book)
             book.borrow_date = date.today()
             today = date.today()
-            regi = Register(reader.id, book.id,today, RegisterEnum.Wyporzyczenie)
+            regi = Register(reader.id, book.id, today, RegisterEnum.Wyporzyczenie)
             reader.list_of_registers.append(regi)
             book.borrow_date = today
             return
@@ -176,12 +173,12 @@ class Library:
                 book.status = StatusEnum.Zarezewowana_Wypozyczona
                 reader.list_of_Reserved_Books.append(book)
                 today = date.today()
-                regi = Register(reader.id, book.id,today, RegisterEnum.Zarezerwowanie)
+                regi = Register(reader.id, book.id, today, RegisterEnum.Zarezerwowanie)
                 reader.list_of_registers.append(regi)
             elif answer == 'n':
                 return
 
-    def borrow_book(self, rname:str, rsurname:str, btitle:str, bauthor:str) -> None:
+    def borrow_book(self, rname: str, rsurname: str, btitle: str, bauthor: str) -> None:
         reader = self._find_Reader(rname, rsurname)
         matching_books = []
         found_isbn = []
@@ -200,7 +197,7 @@ class Library:
             self._borrow_final(reader, book)
             return
 
-        final_list =[]
+        final_list = []
         for isbn in found_isbn:
             final_list.append(self._found_Book_By_isbn(isbn, matching_books))
 
@@ -215,7 +212,6 @@ class Library:
         book = final_list[code - 1]
 
         self._borrow_final(reader, book)
-
 
     def calculateCosts(self, date_of_borow: date) -> int:
         dayToday = date.today()
@@ -258,11 +254,11 @@ class Library:
         reader.list_of_registers.append(regi)
         reader.list_of_Borrowed_Books.remove(book)
 
-        book.borrow_date = None
-
+        book.borrow_date = today
 
         for register in reader.list_of_registers[::-1]:
-            if register.book_id == book.id and (register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
+            if register.book_id == book.id and (
+                    register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
                 date_of_borow = register.date
                 cost = self.calculateCosts(date_of_borow)
                 # cost = 5
@@ -292,7 +288,7 @@ class Library:
         book = book_list[code - 1]
 
         if book.status == StatusEnum.Wyporzyczona:
-            #zwrć i wyporzycz
+            # zwrć i wyporzycz
             today = date.today()
             regi = Register(reader.id, book.id, today, RegisterEnum.Przedluzenie)
 
@@ -302,7 +298,8 @@ class Library:
             book.borrow_date = None
 
             for register in reader.list_of_registers[::-1]:
-                if register.book_id == book.id and (register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
+                if register.book_id == book.id and (
+                        register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
                     date_of_borow = register.date
                     cost = self.calculateCosts(date_of_borow)
                     # cost = 5
@@ -310,26 +307,36 @@ class Library:
                     break
 
         elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
-            #akcja niemożliwa, koniec
+            # akcja niemożliwa, koniec
             raise ExtendNotPossible
 
+
+#todo check this function
     def reader_history(self, rname: str, rsurname: str) -> None:
         reader = self._find_Reader(rname, rsurname)
 
         if len(reader.list_of_registers) == 0:
             raise NoHistory
 
-        df = pd.DataFrame([vars(register) for register in reader.list_of_registers])
-        df_better = df[['date', 'operation', 'book_id']]
+        better_list = []
+
+        for register in reader.list_of_registers:
+            book_name = ""
+            for book in self.list_of_book:
+                if book.id == register.book_id:
+                    book_name = book.title
+                    break
+            tmp_regi = {'date': register.date,
+                        'book_name': book_name,
+                        'operation': register.operation.value
+                        }
+            better_list.append(tmp_regi)
+
+        df = pd.DataFrame([vars(register) for register in better_list])
+        df_better = df[['date', 'book_name', 'operation']]
         print(tabulate(df_better, headers='keys', tablefmt='psql'))
 
-
-
-
-
-
-
-    def manage_reservation (self, rname:str, rsurname:str) -> None:
+    def manage_reservation(self, rname: str, rsurname: str) -> None:
         reader = self._find_Reader(rname, rsurname)
 
         wanted_book_list = []
@@ -385,9 +392,5 @@ class Library:
                     reader.list_of_registers.append(regi)
                 elif answer == 'n':
                     return
-
-
-
-
 
 # można dodać jakiś graf pokazujący jaki czytelnik ile ksiązke wyporzyczył ale to juz dodatkowe ale nie trudne do zrobienia
