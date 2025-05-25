@@ -147,7 +147,7 @@ class Library:
         found_book = None
         for book in list_of_book:
             if book.isbn == looking_isbn:
-                if book.status == StatusEnum.Wyporzyczona:
+                if book.status == StatusEnum.Wypozyczona:
                     if book.borrow_date < lowest_date:
                         lowest_date = book.borrow_date
                         found_book = book
@@ -156,11 +156,11 @@ class Library:
 
     def _borrow_final(self, reader: Reader, book: Book) -> None:
         if book.status == StatusEnum.Wolny:
-            book.status = StatusEnum.Wyporzyczona
+            book.status = StatusEnum.Wypozyczona
             reader.list_of_Borrowed_Books.append(book)
             book.borrow_date = date.today()
             today = date.today()
-            regi = Register(reader.id, book.id, today, RegisterEnum.Wyporzyczenie)
+            regi = Register(reader.id, book.id, today, RegisterEnum.Wypozyczenie)
             reader.list_of_registers.append(regi)
             book.borrow_date = today
             return
@@ -170,7 +170,7 @@ class Library:
             answer = input().lower().strip()
 
             if answer == 'y':
-                book.status = StatusEnum.Zarezewowana_Wypozyczona
+                book.status = StatusEnum.Zarezerwowana_Wypozyczona
                 reader.list_of_Reserved_Books.append(book)
                 today = date.today()
                 regi = Register(reader.id, book.id, today, RegisterEnum.Zarezerwowanie)
@@ -183,7 +183,7 @@ class Library:
         matching_books = []
         found_isbn = []
         for book in self.list_of_book:
-            if book.status == StatusEnum.Wolny or book.status == StatusEnum.Wyporzyczona:
+            if book.status == StatusEnum.Wolny or book.status == StatusEnum.Wypozyczona:
                 if book.title == btitle and book.author == bauthor:
                     if not book.isbn in found_isbn:
                         found_isbn.append(book.isbn)
@@ -243,10 +243,10 @@ class Library:
                 break
         book = book_list[code - 1]
 
-        if book.status == StatusEnum.Wyporzyczona:
+        if book.status == StatusEnum.Wypozyczona:
             book.status = StatusEnum.Wolny
-        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
-            book.status = StatusEnum.Zarezewowana_Wolna
+        elif book.status == StatusEnum.Zarezerwowana_Wypozyczona:
+            book.status = StatusEnum.Zarezerwowana_Wolna
 
         today = date.today()
         regi = Register(reader.id, book.id, today, RegisterEnum.Oddanie)
@@ -258,7 +258,7 @@ class Library:
 
         for register in reader.list_of_registers[::-1]:
             if register.book_id == book.id and (
-                    register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
+                    register.operation == RegisterEnum.Wypozyczenie or register.operation == RegisterEnum.Przedluzenie):
                 date_of_borow = register.date
                 cost = self.calculateCosts(date_of_borow)
                 # cost = 5
@@ -287,7 +287,7 @@ class Library:
                 break
         book = book_list[code - 1]
 
-        if book.status == StatusEnum.Wyporzyczona:
+        if book.status == StatusEnum.Wypozyczona:
             # zwrć i wyporzycz
             today = date.today()
             regi = Register(reader.id, book.id, today, RegisterEnum.Przedluzenie)
@@ -299,14 +299,14 @@ class Library:
 
             for register in reader.list_of_registers[::-1]:
                 if register.book_id == book.id and (
-                        register.operation == RegisterEnum.Wyporzyczenie or register.operation == RegisterEnum.Przedluzenie):
+                        register.operation == RegisterEnum.Wypozyczenie or register.operation == RegisterEnum.Przedluzenie):
                     date_of_borow = register.date
                     cost = self.calculateCosts(date_of_borow)
                     # cost = 5
                     reader.charge += cost
                     break
 
-        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
+        elif book.status == StatusEnum.Zarezerwowana_Wypozyczona:
             # akcja niemożliwa, koniec
             raise ExtendNotPossible
 
@@ -332,7 +332,8 @@ class Library:
                         }
             better_list.append(tmp_regi)
 
-        df = pd.DataFrame([vars(register) for register in better_list])
+        df = pd.DataFrame(better_list)
+        # df = pd.DataFrame([vars(register) for register in better_list])
         df_better = df[['date', 'book_name', 'operation']]
         print(tabulate(df_better, headers='keys', tablefmt='psql'))
 
@@ -341,7 +342,7 @@ class Library:
 
         wanted_book_list = []
         for book in reader.list_of_Reserved_Books:
-            if book.status == StatusEnum.Zarezewowana_Wolna or book.status == StatusEnum.Zarezewowana_Wypozyczona:
+            if book.status == StatusEnum.Zarezerwowana_Wolna or book.status == StatusEnum.Zarezerwowana_Wypozyczona:
                 wanted_book_list.append(book)
 
         if len(wanted_book_list) == 0:
@@ -360,37 +361,65 @@ class Library:
                 break
         book = wanted_book_list[code - 1]
 
-        if book.status == StatusEnum.Zarezewowana_Wypozyczona:
-            print("czy chcesz odwolac rezerwacje? y/n")
+        if book.status == StatusEnum.Zarezerwowana_Wolna:
+            print("Czy chcesz wypożyczyć książkę? y/n")
             answer = input().lower().strip()
             if answer == 'y':
-                book.status = StatusEnum.Wyporzyczona
+                book.status = StatusEnum.Wypozyczona
                 reader.list_of_Reserved_Books.remove(book)
-                today = date.today()
-                regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+                regi = Register(reader.id, book.id, date.today(), RegisterEnum.Wypozyczenie)
                 reader.list_of_registers.append(regi)
             elif answer == 'n':
-                return
-
-        elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
-            print("czy chcesz wyporzyczyć? y/n")
-            answer = input().lower().strip()
-            if answer == 'y':
-                book.status = StatusEnum.Wyporzyczona
-                reader.list_of_Reserved_Books.remove(book)
-                today = date.today()
-                regi = Register(reader.id, book.id, today, RegisterEnum.Wyporzyczenie)
-                reader.list_of_registers.append(regi)
-            elif answer == 'n':
-                print("czy chcesz odwolac rezerwacje? y/n")
+                print("Czy chcesz odwołać rezerwację? y/n")
                 answer = input().lower().strip()
                 if answer == 'y':
                     book.status = StatusEnum.Wolny
                     reader.list_of_Reserved_Books.remove(book)
-                    today = date.today()
-                    regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+                    regi = Register(reader.id, book.id, date.today(), RegisterEnum.Rezerwacja_Oddanie)
                     reader.list_of_registers.append(regi)
-                elif answer == 'n':
-                    return
+
+        elif book.status == StatusEnum.Zarezerwowana_Wypozyczona:
+            print("Książka jest aktualnie wypożyczona.")
+            print("Czy chcesz odwołać rezerwację? y/n")
+            answer = input().lower().strip()
+            if answer == 'y':
+                book.status = StatusEnum.Wypozyczona
+                reader.list_of_Reserved_Books.remove(book)
+                regi = Register(reader.id, book.id, date.today(), RegisterEnum.Rezerwacja_Oddanie)
+                reader.list_of_registers.append(regi)
+
+
+        # if book.status == StatusEnum.Zarezewowana_Wolna:
+        #     print("czy chcesz odwolac rezerwacje? y/n")
+        #     answer = input().lower().strip()
+        #     if answer == 'y':
+        #         book.status = StatusEnum.Wyporzyczona
+        #         reader.list_of_Reserved_Books.remove(book)
+        #         today = date.today()
+        #         regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+        #         reader.list_of_registers.append(regi)
+        #     elif answer == 'n':
+        #         return
+        #
+        # elif book.status == StatusEnum.Zarezewowana_Wypozyczona:
+        #     print("czy chcesz wyporzyczyć? y/n")
+        #     answer = input().lower().strip()
+        #     if answer == 'y':
+        #         book.status = StatusEnum.Wyporzyczona
+        #         reader.list_of_Reserved_Books.remove(book)
+        #         today = date.today()
+        #         regi = Register(reader.id, book.id, today, RegisterEnum.Wyporzyczenie)
+        #         reader.list_of_registers.append(regi)
+        #     elif answer == 'n':
+        #         print("czy chcesz odwolac rezerwacje? y/n")
+        #         answer = input().lower().strip()
+        #         if answer == 'y':
+        #             book.status = StatusEnum.Wolny
+        #             reader.list_of_Reserved_Books.remove(book)
+        #             today = date.today()
+        #             regi = Register(reader.id, book.id, today, RegisterEnum.Rezerwacja_Oddanie)
+        #             reader.list_of_registers.append(regi)
+        #         elif answer == 'n':
+        #             return
 
 # można dodać jakiś graf pokazujący jaki czytelnik ile ksiązke wyporzyczył ale to juz dodatkowe ale nie trudne do zrobienia

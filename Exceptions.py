@@ -7,7 +7,6 @@ class ReaderNotFound(Exception):
     pass
 
 class BookNotFound(Exception):
-
     pass
 
 class BookNotRegistered(Exception):
@@ -37,6 +36,10 @@ class NoBorrowedBooks(Exception):
 class NoHistory(Exception):
     #kiedy nie ma historii wypożyczeń
     pass
+
+class WrongCode(Exception):
+    pass
+
 #todo
 # wiecej wyjątków!!!!!!!!
 # z gpt do przemyślenia

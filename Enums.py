@@ -2,12 +2,12 @@ from enum import Enum
 
 class StatusEnum(Enum):
     Wolny = 'Wolny'
-    Wyporzyczona = 'Wypożyczona'
-    Zarezewowana_Wypozyczona = 'Zarezewowana Wypożyczona'
-    Zarezewowana_Wolna = 'Zarezewowana Wolna'
+    Wypozyczona = 'Wypożyczona'
+    Zarezerwowana_Wypozyczona = 'Zarezewowana Wypożyczona'
+    Zarezerwowana_Wolna = 'Zarezewowana Wolna'
 
 class RegisterEnum(Enum):
-    Wyporzyczenie = 'Wyporzyczenie'
+    Wypozyczenie = 'Wypożyczenie'
     Oddanie = 'Oddanie'
     Zarezerwowanie = 'Zarezerwowanie'
     Rezerwacja_Oddanie = 'Rezerwacja Oddanie'
