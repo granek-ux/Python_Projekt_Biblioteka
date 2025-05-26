@@ -11,7 +11,7 @@ from Register import Register
 
 
 class Library:
-    price_for_missig_day = 5  # cena za nie oddanie kisażki za każdy dzień
+    price_for_missig_day = 5  # cena za nie oddanie książki za każdy dzień
 
     def __init__(self):
         self.list_of_readers = []

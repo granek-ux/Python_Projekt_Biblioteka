@@ -13,17 +13,6 @@ from tabulate import tabulate
 from Reader import Reader
 
 
-
-
-
-with open("Dane.plk", "rb") as file:
-    lib = pickle.load(file)
-
-
-
-with open("Dane.plk", "wb") as file:
-    pickle.dump(lib, file)
-
 def check_and_install(package):
     try:
          __import__(package)
@@ -32,15 +21,6 @@ def check_and_install(package):
          print(f"{package} nie jest zainstalowane. Próbuję zainstalować...")
          subprocess.check_call([sys.executable, "-m", "pip", "install", package])
          print(f"{package} zostało pomyślnie zainstalowane.")
-
-check_and_install("tabulate")
-check_and_install("pandas")
-check_and_install("colorama")
-check_and_install("Library")
-
-# lib = interface(lib)
-
-
 
 def reader_interface(library:Library) ->Library:
     while True:
@@ -108,9 +88,8 @@ def reader_interface(library:Library) ->Library:
                     return library
                 case 'q':
                     return library
-                case _:  # to jest domyślny case i zorbiłem na string aby uniknąć wyjątków jak ktoś wpisze napis
+                case _:
                     raise WrongCode
-                    # print(Fore.RED + 'Podany zły kod'+Style.RESET_ALL)
         except WrongCode:
             print(Fore.RED + 'Podany zły kod' + Style.RESET_ALL)
 
@@ -165,7 +144,6 @@ def book_interface(library:Library)->Library:
                 case '1':
                     maxid = 0
                     for booktmp in lib.list_of_book:
-                        print(type(booktmp))
                         if booktmp.id > maxid:
                             maxid = booktmp.id
 
@@ -261,11 +239,6 @@ def rent_interface(library:Library)->Library:
 def Reservation_interface(library:Library)->Library:
     while True:
         try:
-            # name = input("Podaj imie: ")
-            # surname = input("Podaj nazwisko: ")
-            #
-            # library.manage_reservation(name, surname)
-
             print(Fore.LIGHTGREEN_EX+ '\nJesteś w sekcji Rezerwacji: '+Style.RESET_ALL)
             print(Fore.LIGHTGREEN_EX+ 'możesz w niej zrobić: '+Style.RESET_ALL)
             print('1. Odebrać rezerwacje')
@@ -275,19 +248,11 @@ def Reservation_interface(library:Library)->Library:
                 case '1':
                     name = input("Podaj imie: ")
                     surname = input("Podaj nazwisko: ")
-                    # title = input("Podaj tytuł: ")
-                    # author = input("Podaj autora: ")
                     try:
                         library.manage_reservation(name, surname ) #, title, author)
                     except NoBookReserved:
                         text = Fore.RED + 'BRAK ZAREZERWOWANYCH KSIĄŻEK' + Style.RESET_ALL
                         print(text)
-
-                # case '2':
-                #     name = input("Podaj imie: ")
-                #     surname = input("Podaj nazwisko: ")
-                #
-                #     library.cancel_reservation(name, surname)
                 case '2':
                     return library
                 case _:
@@ -296,7 +261,7 @@ def Reservation_interface(library:Library)->Library:
             print(Fore.RED + 'Podany zły kod' + Style.RESET_ALL)
 
 
-def new_interface(library:Library) -> Library:
+def interface(library:Library) -> Library:
     init()
     width = shutil.get_terminal_size().columns
     text = 'Witaj w bibliotece'
@@ -334,36 +299,23 @@ def new_interface(library:Library) -> Library:
                 pickle.dump(library, file)
         except WrongCode:
             print(Fore.RED + 'Podany zły kod' + Style.RESET_ALL)
-        # except Exception:
-        #     print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
-
-lib = new_interface(lib)
-
-
-# print("\n".join(str(p) for p in lib.list_of_readers))
-
-# lib = Library()
-
-# print("\n".join(str(p) for p in lib.list_of_book))
-#
-# lib.list_of_book = []
+        except Exception:
+            print(Style.BRIGHT +Fore.RED +  "Coś poszło nie tak w trakcie programu" + Style.RESET_ALL)
 
 
 
+check_and_install("tabulate")
+check_and_install("pandas")
+check_and_install("colorama")
 
 
-# Propozycja
-# zapis do pliku po każdym działaniu programu aby nie tracić danych
+with open("Dane.plk", "rb") as file:
+    lib = pickle.load(file)
 
-# zapis do pliku
+lib = Library()
 
+lib = interface(lib)
 
-
-# dt1 = datetime(2024, 5, 1, 12, 30)
-# dt2 = datetime(2025, 5, 17, 8, 15)
-#
-# roznica = dt2 - dt1
-# print(roznica)            # pełna różnica (np. 380 days, 19:45:00)
-# print(roznica.days)       # tylko dni
-# print(roznica.total_seconds())
+with open("Dane.plk", "wb") as file:
+    pickle.dump(lib, file)
 
