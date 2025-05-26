@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="borrow extend, added to menu reader_history need to dokończyć">
+    <list default="true" id="0760b4bd-330b-48d2-89e0-48d1bc940b38" name="Changes" comment="wszystko już chyba bambini, kupę roboty odwaliłeś, muszę się jakoś odwdzięczyć">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dane.plk" beforeDir="false" afterPath="$PROJECT_DIR$/Dane.plk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/Enums.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exceptions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library.py" beforeDir="false" afterPath="$PROJECT_DIR$/Library.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +119,7 @@
       <workItem from="1747481429518" duration="117000" />
       <workItem from="1747485617803" duration="500000" />
       <workItem from="1747497816934" duration="1277000" />
-      <workItem from="1748065500795" duration="10119000" />
+      <workItem from="1748065500795" duration="13974000" />
     </task>
     <task id="LOCAL-00001" summary="First commit &#10;added Book Reader and Library">
       <option name="closed" value="true" />
@@ -228,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748069600544</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="wszystko już chyba bambini, kupę roboty odwaliłeś, muszę się jakoś odwdzięczyć">
+      <option name="closed" value="true" />
+      <created>1748189767923</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1748189767923</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,9 +251,10 @@
     <MESSAGE value="small interace changes" />
     <MESSAGE value="added files" />
     <MESSAGE value="borrow extend, added to menu reader_history need to dokończyć" />
-    <option name="LAST_COMMIT_MESSAGE" value="borrow extend, added to menu reader_history need to dokończyć" />
+    <MESSAGE value="wszystko już chyba bambini, kupę roboty odwaliłeś, muszę się jakoś odwdzięczyć" />
+    <option name="LAST_COMMIT_MESSAGE" value="wszystko już chyba bambini, kupę roboty odwaliłeś, muszę się jakoś odwdzięczyć" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1748189677339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Python_Projekt_Biblioteka$main.coverage" NAME="main Coverage Results" MODIFIED="1748253436679" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
