@@ -28,10 +28,10 @@ class Library:
             reader = matches[0]
         else:
             print('Wybierz czyelnika: ')
-            id = 1
-            for r in matches:
-                print(f"numer: {id} to: {r}")
-                id += 1
+            df = pd.DataFrame([vars(reader) for reader in matches])
+            df_better = df[['name', 'surname', 'address', 'telephone_number']]
+            df_better.index += 1
+            print(tabulate(df_better, headers='keys', tablefmt='psql'))
             id_wanted = int(input("podaj żądane Id: "))
             reader = matches[id_wanted - 1]
 
@@ -81,10 +81,12 @@ class Library:
             book = matches[0]
         else:
             print('Wybierz książkę: ')
-            id = 1
-            for b in matches:
-                print(f"numer: {id} to: {b}")
-                id += 1
+
+            df = pd.DataFrame([vars(book) for book in matches])
+            df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
+            df_better.index += 1
+            print(tabulate(df_better, headers='keys', tablefmt='psql'))
+
             id_wanted = int(input("podaj żądane Id: "))
             book = matches[id_wanted - 1]
 

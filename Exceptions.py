@@ -35,3 +35,7 @@ class NoHistory(Exception):
 
 class WrongCode(Exception):
     pass
+
+class WrongPagesNumber(Exception):
+    # kiedy liczba stron jest mniejsza lub równa 0
+    pass

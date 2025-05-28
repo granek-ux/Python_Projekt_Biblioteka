@@ -109,7 +109,7 @@ def show_Books(library:Library):
                     print(tabulate(df_better, headers='keys', tablefmt='psql'))
                     return
                 case '2':
-                    df = pd.DataFrame([vars(book) for book in library.list_of_book if book.status == StatusEnum.Wyporzyczona])
+                    df = pd.DataFrame([vars(book) for book in library.list_of_book if book.status == StatusEnum.Wypozyczona or book.status == StatusEnum.Zarezerwowana_Wypozyczona])
                     if df.empty:
                         raise NoBorrowedBooks
                     df_better = df[['title', 'author', 'isbn', 'pages', 'status']]
@@ -151,6 +151,8 @@ def book_interface(library:Library)->Library:
                     author = input("Podaj autora: ")
                     isbn = int(input("Podaj isbn: "))
                     pages = int(input("Podaj ilość stron: "))
+                    if pages <= 0:
+                        raise WrongPagesNumber
                     book = Book(id=maxid + 1, title=title, author=author, isbn=isbn, pages=pages)
 
                     lib.add_book(book)
@@ -161,7 +163,7 @@ def book_interface(library:Library)->Library:
                     try:
                         library.remove_book(title, author)
                     except BookNotFound:
-                        text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
+                        text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONA' + Style.RESET_ALL
                         print(text)
                 case '3':
                     title = input("Podaj tytuł: ")
@@ -169,10 +171,18 @@ def book_interface(library:Library)->Library:
                     try:
                         library.edit_book(title, author)
                     except BookNotFound:
-                        text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONY' + Style.RESET_ALL
+                        text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONA' + Style.RESET_ALL
                         print(text)
                 case '4':
-                    show_Books(library)
+                    try:
+                        show_Books(library)
+                    except BookNotFound:
+                        text = Fore.RED + 'KSIĄŻKA NIE ZNALEZIONA' + Style.RESET_ALL
+                        print(text)
+                    except ReaderNotFound:
+                        text = Fore.RED + 'CZYTELNIK NIE ZNALEZIONY' + Style.RESET_ALL
+                        print(text)
+                        
                 case '5':
                     return library
                 case 'q':
@@ -181,6 +191,9 @@ def book_interface(library:Library)->Library:
                     raise WrongCode
         except WrongCode:
             print(Fore.RED + 'Podany zły kod' + Style.RESET_ALL)
+        except WrongPagesNumber:
+            text = Fore.RED + 'Liczba stron musi być większa od 0' + Style.RESET_ALL
+            print(text)
 
 def rent_interface(library:Library)->Library:
     while True:
@@ -311,8 +324,6 @@ check_and_install("colorama")
 
 with open("Dane.plk", "rb") as file:
     lib = pickle.load(file)
-
-lib = Library()
 
 lib = interface(lib)
 
